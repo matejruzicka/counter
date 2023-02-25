@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block mycontent %}
+
+<div class="card p-3" style="width: 25rem;">
+
+    <h2 class="mb-4">Login</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.non_field_errors.as_text }}
+                </div>
+            {% endif %}
+
+            {% for hidden_field in form.hidden_fields %}
+                <div class="alert alert-danger" role="alert">
+                    {{ hidden_field.errors.as_text }}
+                </div>
+                {{ hidden_field }}
+            {% endfor %}
+
+            <label for="id_username">Username</label>
+            <input type="text" name="username" class="form-control" autofocus="" autocapitalize="none"
+                   autocomplete="username" maxlength="150" required="" id="id_username">
+        </div>
+        <div class="form-group">
+            <label for="id_password">Password</label>
+            <input type="password" name="password" class="form-control" autocomplete="current-password" required=""
+                   id="id_password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit">Login</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

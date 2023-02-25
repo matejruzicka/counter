@@ -13,9 +13,10 @@ def home(request):
         data[user] = Counter.objects.filter(user=user)
 
     if request.method == 'POST':
-        form = CounterForm(request.POST)
-        if form.is_valid():
-            form.save()
+        if request.user.is_authenticated:
+            form = CounterForm(request.POST)
+            if form.is_valid():
+                form.save()
 
         return redirect("home")
 
@@ -26,14 +27,16 @@ def home(request):
 
 
 def reset(request, counter_id):
-    counter = Counter.objects.get(id=counter_id)
-    counter.date = timezone.now()
-    counter.save()
+    if request.user.is_authenticated:
+        counter = Counter.objects.get(id=counter_id)
+        counter.date = timezone.now()
+        counter.save()
     return redirect(home)
 
 
 def delete(request, counter_id):
-    counter = Counter.objects.get(id=counter_id)
-    counter.delete()
+    if request.user.is_authenticated:
+        counter = Counter.objects.get(id=counter_id)
+        counter.delete()
     return redirect(home)
 
