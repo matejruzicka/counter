@@ -41,7 +41,7 @@
     <form action="{% url 'home' %}" class="mr-2 d-flex justify-content-center">
         <button class="btn btn-primary">Home</button>
     </form>
-    {% endfor %}
+    {% endif %}
 
     {% if user.is_authenticated %}
 
