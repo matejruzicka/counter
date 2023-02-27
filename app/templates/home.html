@@ -28,14 +28,15 @@
         </div>
     </div>
 
+    {% if user.is_authenticated %}
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="float:right;">
         Add counter
     </button>
+    {% endif %}
 
-    {% for user, counters in data.items %}
+    {% for app_user, counters in data.items %}
 
-    <br>
-    <h3 class="pt-5 pb-5">{{ user.name }}</h3>
+    <h3 class="pt-5 pb-5">{{ app_user.name }}</h3>
 
     {% if counters %}
 
@@ -50,12 +51,21 @@
                     <p class="card-text" style="color: white;">{{ counter.days_since }} days</p>
                 </div>
                 <div style="margin:auto;" class="pb-3">
-                    <button type="button" class="btn btn-secondary btn-sm" style="background-color:white;">
-                        <a href="{% url 'reset' counter.id %}" style="color:black">Reset to today</a>
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'reset' counter.id %}" style="display:inline;">
+                        <button class="btn btn-outline-light btn-sm">Reset to today</button>
+                    </form>
+                    <form action="{% url 'delete' counter.id %}" style="display:inline;">
+                        <button class="btn btn-outline-light btn-sm">Delete</button>
+                    </form>
+                    {% else %}
+                    <button type="button" class="btn btn-outline-light btn-sm" disabled>
+                        Reset to today
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm" style="background-color:white;">
-                        <a href="{% url 'delete' counter.id %}" style="color:black">Delete</a>
+                    <button type="button" class="btn btn-outline-light btn-sm" disabled>
+                        Delete
                     </button>
+                    {% endif %}
                 </div>
             </div>
         </div>

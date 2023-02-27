@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Counter</title>
@@ -28,26 +29,28 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
-    <script>
-
-
-    </script>
+    <script src="{% static 'script.js' %}"></script>
 </head>
 <body>
 
 <div class="m-5">
 
-    {% if request.path != "/" %}
-    <form action="{% url 'home' %}" class="mr-2 d-flex justify-content-center">
-        <button class="btn btn-primary">Home</button>
-    </form>
+    <div class="mr-2 d-flex justify-content-center">
+        <img src="{% static 'counter.png' %}">
+    </div>
+
+
+    {% if request.GET.logout %}
+        <div class="alert alert-primary" role="alert" id="logout">
+          You have been logged out.
+        </div>
     {% endif %}
 
     {% if user.is_authenticated %}
 
     <div class="d-flex flex-row-reverse mb-5">
         <form action="{% url 'logout' %}" class="mr-2">
-            <button class="btn btn-primary">Logout</button>
+            <button class="btn btn-outline-danger btn-sm">Log out</button>
         </form>
     </div>
 
@@ -55,7 +58,7 @@
 
     <div class="d-flex flex-row-reverse mb-5">
         <form action="{% url 'login' %}" class="ml-2">
-            <button class="btn btn-primary">Login</button>
+            <button class="btn btn-outline-primary btn-sm">Login</button>
         </form>
     </div>
 
